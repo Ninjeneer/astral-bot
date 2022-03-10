@@ -1,6 +1,5 @@
 // Require the necessary discord.js classes
 const { Client, Intents, Collection, MessageEmbed } = require('discord.js');
-const { token } = require('./config.json');
 const fs = require('fs');
 const { startFetchDataTask } = require('./network');
 
