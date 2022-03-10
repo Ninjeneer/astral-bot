@@ -19,6 +19,8 @@ for (const file of commandFiles) {
 client.once('ready', () => {
 	console.log('Ready!');
 
+	require('./deploy-commands');
+
 	startFetchDataTask((launch) => {
 		const embed = new MessageEmbed();
 		embed.setTitle('Nouveau lancement programmé !');
