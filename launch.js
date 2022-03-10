@@ -132,6 +132,7 @@ class LaunchData {
         let description = `**${this.name}**\n`;
         description += `\tLancement le : ${new Date(this.win_open).toLocaleDateString('fr-FR')} à ${new Date(this.win_open).toLocaleTimeString('fr-FR')}\n`;
         description += `\tPosition : ${this.pad.location.name}\n`;
+        description += `Lancé par : ${this.provider.name}\n`
 
         const videoURL = getVideoURL(this.provider.name)
         if (videoURL) {
