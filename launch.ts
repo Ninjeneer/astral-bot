@@ -9,7 +9,7 @@ function getVideoURL(companyName) {
 }
 
 
-class LaunchData {
+export default class LaunchData {
     /**
      * @type {number}
      */
@@ -245,8 +245,4 @@ class Location {
      * @type {string}
      */
     slug;
-}
-
-module.exports = {
-    LaunchData
 }

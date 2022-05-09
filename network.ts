@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
-const { LaunchData } = require('./launch');
+
+import LaunchData from './launch';
 const api_url = 'https://fdo.rocketlaunch.live/json/launches/next/5';
 const launchesCache = new Map();
 

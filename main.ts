@@ -2,6 +2,10 @@
 const { Client, Intents, Collection, MessageEmbed } = require('discord.js');
 const fs = require('fs');
 const { startFetchDataTask } = require('./network');
+const config = require('./config.json');
+const dotenv = require('dotenv');
+
+dotenv.config();
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS], presence: { activities: [{ name: 'les étoiles', type: 'WATCHING' }]} });
