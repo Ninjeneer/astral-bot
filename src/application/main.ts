@@ -1,4 +1,3 @@
-import Command from "./commands/commands";
 import { Interaction } from "discord.js";
 import LaunchCommand from "./commands/launches";
 import LaunchData from "../core/launches/entities/launch";
@@ -41,6 +40,7 @@ export default class AstralBot {
 		setInterval(() => {
 			this.launchService.fetchLaunches()
 				.then((launches) => {
+					console.log(`${launches.length} launches fetched!`);
 					if (!firstRun) {
 						launches.forEach(this.notifyNewLaunch.bind(this));
 						firstRun = false;
