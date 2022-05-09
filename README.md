@@ -14,8 +14,16 @@ npm install
 export TOKEN=XXXX
 export GUILD_ID=XXXX
 export CLIENT_ID=XXXX
+export CHANNEL_ID=XXX
 ```
+
+- Run the tests
+```sh
+npm run test
+```
+
 - Run the bot
 ```sh
-node main.js
+npm run build
+npm run start
 ```
