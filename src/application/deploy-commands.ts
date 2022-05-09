@@ -1,15 +1,11 @@
-import { SlashCommandBuilder } from '@discordjs/builders';
+import LaunchCommand from './commands/launches';
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord-api-types/v9');
 const fs = require('fs');
 
 const commands = [];
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
-for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	commands.push(command.data.toJSON());
-}
+commands.push(new LaunchCommand().getDefinition());
 
 const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
 
