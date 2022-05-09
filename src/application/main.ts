@@ -1,6 +1,7 @@
 import Command from "./commands/commands";
 import { Interaction } from "discord.js";
 import LaunchCommand from "./commands/launches";
+import LaunchData from "../core/launches/entities/launch";
 import LaunchService from "../core/launches/adapters/launch.service";
 import { REST } from "@discordjs/rest";
 import dotenv from 'dotenv';
@@ -36,12 +37,16 @@ export default class AstralBot {
 
 		this.deployCommands();
 
-		// startFetchDataTask((launch) => {
-		// 	const embed = new MessageEmbed();
-		// 	embed.setTitle('Nouveau lancement programmé !');
-		// 	embed.setDescription(launch.buildDescription());
-		// 	this.client.channels.fetch(process.env.CHANNEL_ID).then((c) => c.send({ embeds: [embed] }));
-		// });
+		let firstRun = true;
+		setInterval(() => {
+			this.launchService.fetchLaunches()
+				.then((launches) => {
+					if (!firstRun) {
+						launches.forEach(this.notifyNewLaunch.bind(this));
+						firstRun = false;
+					}
+				});
+		}, 5 * 1000);
 	}
 
 	private async handleMessage(message: Interaction): Promise<void> {
@@ -64,5 +69,12 @@ export default class AstralBot {
 		rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID), { body: this.client.commands.map(c => c.getDefinition().toJSON()) })
 			.then(() => console.log('Commands deployed!'))
 			.catch(console.error);
+	}
+
+	private notifyNewLaunch(launch: LaunchData): void {
+		const embed = new MessageEmbed();
+		embed.setTitle('Nouveau lancement programmé !');
+		embed.setDescription(this.launchService.buildLaunchDescription(launch));
+		this.client.channels.fetch(process.env.CHANNEL_ID).then((c) => c.send({ embeds: [embed] }));
 	}
 }

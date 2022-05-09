@@ -14,7 +14,8 @@ export default class LaunchRepositoryImpl implements LaunchRepository {
     }
 
     saveLaunch(launch: launch): Promise<void> {
-        return Promise.resolve(this.saveLaunch(launch));
+        this.launches.set(launch.id, launch);
+        return Promise.resolve();
     }
 
     deleteLaunch(launch: launch): Promise<void> {

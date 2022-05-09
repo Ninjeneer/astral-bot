@@ -13,26 +13,29 @@ export default class LaunchServiceImpl implements LaunchService {
     }
 
     public async getLaunches(): Promise<LaunchData[]> {
-        return await this.launchApi.getLaunches();
+        return await this.launchRepository.getLaunches();
     }
 
-    public async fetchLaunches(): Promise<void> {
+    public async fetchLaunches(): Promise<LaunchData[]> {
         const launches = await this.launchApi.getLaunches();
+        const savedLaunches = [];
 
         // Clear past launches
         for (const launch of await this.launchRepository.getLaunches()) {
-            if (launch.sort_date < new Date().getTime()) {
+            if (this.launchIsExpired(launch)) {
                 this.launchRepository.deleteLaunchById(launch.id);
             }
         }
 
         // Add new launches
         for (const launch of launches) {
-            if (!(await this.launchRepository.getLaunches()).map((l) => l.id).includes(launch.id)) {
+            if (!(await this.launchRepository.getLaunches()).map((l) => l.id).includes(launch.id) && !this.launchIsExpired(launch)) {
                 // console.log('adding ' + launch.id);
                 await this.launchRepository.saveLaunch(launch);
+                savedLaunches.push(launch);
             }
         }
+        return savedLaunches;
     }
 
     public buildLaunchDescription(launch: LaunchData): string {
@@ -56,5 +59,9 @@ export default class LaunchServiceImpl implements LaunchService {
             default:
                 return null;
         }
+    }
+
+    private launchIsExpired(launch: LaunchData): boolean {
+        return launch.sort_date * 1000 < new Date().getTime();
     }
 }
