@@ -1,14 +1,3 @@
-function getVideoURL(companyName) {
-    switch (companyName.toLowerCase()) {
-        case 'spacex':
-        case 'space x':
-            return 'https://www.spacex.com/launches/';
-        default:
-            return null;
-    }
-}
-
-
 export default class LaunchData {
     /**
      * @type {number}
@@ -124,25 +113,9 @@ export default class LaunchData {
      * @type {string}
      */
     modified;
-
-    /**
-     * @returns {string}
-     */
-    buildDescription = () => {
-        let description = `**${this.name}**\n`;
-        description += `\tLancement le : ${new Date(this.win_open).toLocaleDateString('fr-FR')} à ${new Date(this.win_open).toLocaleTimeString('fr-FR')}\n`;
-        description += `\tPosition : ${this.pad.location.country} - ${this.pad.location.name}\n`;
-        description += `Lancé par : ${this.provider.name}\n`
-
-        const videoURL = getVideoURL(this.provider.name)
-        if (videoURL) {
-            description += `\tSuivre sur : ${videoURL}`;
-        }
-        return description;
-    }
 }
 
-class LaunchProvider {
+type LaunchProvider = {
     /**
      * @type {number}
      */
@@ -159,7 +132,7 @@ class LaunchProvider {
     slug;
 }
 
-class LaunchVehicle {
+type LaunchVehicle ={
     /**
      * @type {number}
      */
@@ -181,7 +154,7 @@ class LaunchVehicle {
     slug;
 }
 
-class LaunchPad {
+type LaunchPad = {
     /**
      * @type {number}
      */
@@ -198,7 +171,7 @@ class LaunchPad {
     location;
 }
 
-class LaunchMission {
+type LaunchMission = {
     /**
      * @type {number}
      */
@@ -215,7 +188,7 @@ class LaunchMission {
     description;
 }
 
-class Location {
+type Location = {
     /**
      * @type {number}
      */
