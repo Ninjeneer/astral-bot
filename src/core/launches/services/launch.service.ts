@@ -2,14 +2,18 @@ import LaunchAPI from "../ports/launch.api";
 import LaunchData from "../entities/launch";
 import LaunchRepository from "../ports/launch.repository";
 import LaunchService from "../adapters/launch.service";
+import Notification from "../entities/notification";
+import NotificationRepository from "../ports/notification.repository";
 
 export default class LaunchServiceImpl implements LaunchService {
     private launchRepository: LaunchRepository;
     private launchApi: LaunchAPI;
+    private notificationRepository: NotificationRepository;
 
-    constructor(launchRepository: LaunchRepository, launchApi: LaunchAPI) {
+    constructor(launchRepository: LaunchRepository, launchApi: LaunchAPI, notificationRepository: NotificationRepository) {
         this.launchRepository = launchRepository;
         this.launchApi = launchApi;
+        this.notificationRepository = notificationRepository;
     }
 
     public async getLaunches(): Promise<LaunchData[]> {
@@ -24,6 +28,7 @@ export default class LaunchServiceImpl implements LaunchService {
         for (const launch of await this.launchRepository.getLaunches()) {
             if (this.launchIsExpired(launch)) {
                 this.launchRepository.deleteLaunchById(launch.id);
+                this.notificationRepository.deleteById(launch.id);
             }
         }
 
@@ -40,7 +45,11 @@ export default class LaunchServiceImpl implements LaunchService {
 
     public buildLaunchDescription(launch: LaunchData): string {
         let description = `**${launch.name}**\n`;
-        description += `\tLancement le : ${launch.win_open ? new Date(launch.win_open).toLocaleDateString('fr-FR') : '??'} à ${launch.win_open ? new Date(launch.win_open).toLocaleTimeString('fr-FR') : '??'}\n`;
+        if (launch.sort_date) {
+            description += `\tLancement le : ${new Date(launch.sort_date * 1000).toLocaleDateString('fr-FR')} à ${new Date(launch.sort_date * 1000).toLocaleTimeString('fr-FR')}\n`;
+        } else {
+            description += `\tAucune date de lancement prévue pour le moment\n`
+        }
         description += `\tPosition : ${launch.pad.location.country} - ${launch.pad.location.name}\n`;
         description += `\tLancé par : ${launch.provider.name}\n`
 
@@ -49,6 +58,31 @@ export default class LaunchServiceImpl implements LaunchService {
             description += `\tSuivre sur : ${videoURL}`;
         }
         return description;
+    }
+
+    public async getIncomingLaunchNotifications(): Promise<Notification[]> {
+        const notifications: Notification[] = [];
+        
+        const launches = await this.getLaunches();
+        for (const launch of launches) {
+            // Check if the notification exist, otherwise create it
+            let notification = await this.notificationRepository.findByLaunchId(launch.id);
+            if (!notification) {
+                notification = new Notification(launch);
+            }
+
+            // Check if the launch occurs in the next five minutes or in the next hour
+            if (!notification.hasBeenNowNotified() && launch.sort_date && launch.sort_date * 1000 <= new Date().getTime() + 5 * 60 * 1000) {
+                notification.setNowNotified(true);
+                notifications.push(notification);
+            } else if (!notification.hasBeenNowNotified() && !notification.hasBeenHourlyNotified() && launch.sort_date && launch.sort_date * 1000 <= new Date().getTime() + 60 * 60 * 1000) {
+                notification.setHourlyNotified(true);
+                notifications.push(notification);
+            }
+            this.notificationRepository.save(notification);
+        }
+
+        return notifications;
     }
 
     private getVideoURL(companyName: string): string {

@@ -2,6 +2,7 @@ import { Interaction } from "discord.js";
 import LaunchCommand from "./commands/launches";
 import LaunchData from "../core/launches/entities/launch";
 import LaunchService from "../core/launches/adapters/launch.service";
+import Notification from "../core/launches/entities/notification";
 import { REST } from "@discordjs/rest";
 import dotenv from 'dotenv';
 
@@ -40,13 +41,21 @@ export default class AstralBot {
 		setInterval(() => {
 			this.launchService.fetchLaunches()
 				.then((launches) => {
-					console.log(`${launches.length} launches fetched!`);
 					if (!firstRun) {
 						launches.forEach(this.notifyNewLaunch.bind(this));
 						firstRun = false;
+					} else {
+						console.log(`${launches.length} launches fetched!`);
 					}
 				});
-		}, 5 * 1000);
+		}, 5 * 1000); // Check every 5 seconds
+
+		setInterval(async () => {
+			const notifications = await this.launchService.getIncomingLaunchNotifications();
+			if (notifications.length > 0) {
+				notifications.forEach((n) => this.notifyIncomingLaunch(n));
+			}
+		}, 60 * 1000); // Check every minute
 	}
 
 	private async handleMessage(message: Interaction): Promise<void> {
@@ -72,6 +81,14 @@ export default class AstralBot {
 	}
 
 	private notifyNewLaunch(launch: LaunchData): void {
+		this.notify('Nouveau lancement programmé !', launch);
+	}
+
+	private notifyIncomingLaunch(notification: Notification): void {
+		this.notify(`Un lancement arrive dans ${notification.hasBeenNowNotified() ? ' les prochaines minutes' : 'la prochaine heure'}`, notification.getLaunch());
+	}
+
+	private notify(message: string, launch: LaunchData): void {
 		const embed = new MessageEmbed();
 		embed.setTitle('Nouveau lancement programmé !');
 		embed.setDescription(this.launchService.buildLaunchDescription(launch));
