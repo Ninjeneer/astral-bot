@@ -26,8 +26,6 @@ export default class LaunchCommand extends Command {
 			description += "\n\n";
 		}
 		embed.setDescription(description);
-		// console.log(launches);
-
 		await interaction.reply({ embeds: [embed] })
 	}
 }

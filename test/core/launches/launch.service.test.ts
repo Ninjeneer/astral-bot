@@ -1,8 +1,8 @@
 import LaunchApiMock from "./launch.api.mock";
-import LaunchRepositoryImpl from "../../src/infrastructure/launches/launch.repository";
-import LaunchService from "../../src/core/launches/adapters/launch.service";
-import LaunchServiceImpl from "../../src/core/launches/services/launch.service";
-import NotificationRepositoryImpl from '../../src/infrastructure/notifications/notification.repository';
+import LaunchRepositoryImpl from "../../../src/infrastructure/launches/launch.repository";
+import LaunchService from "../../../src/core/launches/adapters/launch.service";
+import LaunchServiceImpl from "../../../src/core/launches/services/launch.service";
+import NotificationRepositoryImpl from '../../../src/infrastructure/notifications/notification.repository';
 
 describe("Launch Service", () => {
     let launchService: LaunchService;

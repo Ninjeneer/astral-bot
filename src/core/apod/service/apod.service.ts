@@ -1,0 +1,15 @@
+import { APOD } from "../entities/apod.entity";
+import APODAPI from "../ports/apod.api";
+import APODService from "../adapters/apod.service";
+
+export default class APODServiceImpl implements APODService {
+    private readonly apodAPI: APODAPI;
+
+    constructor(apodAPI: APODAPI) {
+        this.apodAPI = apodAPI;
+    }
+
+    getAPOD(): Promise<APOD> {
+        return this.apodAPI.getAPOD();
+    }
+}

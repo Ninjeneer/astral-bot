@@ -1,5 +1,5 @@
-import LaunchAPI from "../../src/core/launches/ports/launch.api";
-import LaunchData from "../../src/core/launches/entities/launch";
+import LaunchAPI from "../../../src/core/launches/ports/launch.api";
+import LaunchData from "../../../src/core/launches/entities/launch";
 
 export default class LaunchApiMock implements LaunchAPI {
    public launches: Partial<LaunchData>[] = [
