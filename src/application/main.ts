@@ -1,11 +1,13 @@
 import APODCommand from "./commands/apod";
 import APODService from "../core/apod/adapters/apod.service";
+import ApodEmbed from "./embeds/apod.embed";
 import { Interaction } from "discord.js";
 import LaunchCommand from "./commands/launches";
 import LaunchData from "../core/launches/entities/launch";
 import LaunchService from "../core/launches/adapters/launch.service";
 import Notification from "../core/launches/entities/notification";
 import { REST } from "@discordjs/rest";
+import cron from 'node-cron';
 import dotenv from 'dotenv';
 
 // Require the necessary discord.js classes
@@ -40,9 +42,8 @@ export default class AstralBot {
 	}
 
 	private initBot(): void {
-		console.log('Ready!');
-
 		this.deployCommands();
+		this.startCronTasks();
 
 		let firstRun = true;
 		setInterval(() => {
@@ -61,6 +62,8 @@ export default class AstralBot {
 				notifications.forEach((n) => this.notifyIncomingLaunch(n));
 			}
 		}, 60 * 1000); // Check every minute
+
+		console.log('Ready!');
 	}
 
 	private async handleMessage(message: Interaction): Promise<void> {
@@ -94,9 +97,17 @@ export default class AstralBot {
 	}
 
 	private notify(message: string, launch: LaunchData): void {
-		const embed = new MessageEmbed();
-		embed.setTitle('Nouveau lancement programmé !');
-		embed.setDescription(this.launchService.buildLaunchDescription(launch));
+		const embed = new MessageEmbed()
+			.setTitle('Nouveau lancement programmé !')
+			.setDescription(this.launchService.buildLaunchDescription(launch));
 		this.client.channels.fetch(process.env.CHANNEL_ID).then((c) => c.send({ embeds: [embed] }));
+	}
+
+	private startCronTasks(): void {
+		// Every day at 9am
+		cron.schedule('0 9 * * *', () => {
+			// Send the APOD
+			this.client.channels.fetch(process.env.CHANNEL_ID).then(async (c) => c.send({ embeds: [new ApodEmbed(await this.apodService.getAPOD())] }));
+		});
 	}
 }
