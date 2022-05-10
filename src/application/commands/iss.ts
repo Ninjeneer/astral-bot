@@ -16,11 +16,14 @@ export default class ISSCommand extends Command {
 
 	async execute(interaction: Message): Promise<void> {
 		const position = await this.issTrackerService.getPosition();
+		const osmUrl = `https://www.openstreetmap.org/#map=5/${position.latitude}/${position.longitude}`;
 
 		const embed = new MessageEmbed()
 		.setTitle("Suivi de l'ISS")
 		.setColor("GOLD")
 		.setThumbnail("https://d1fmx1rbmqrxrr.cloudfront.net/cnet/optim/i/edit/2022/02/ISS-1200__w770.jpg")
+		.setURL(osmUrl)
+		.setDescription(osmUrl)
 		.addFields(
 			{ name: "Vitesse", value: `${position.velocity.toFixed()} km/h` },
 			{ name: "Altitude", value: `${position.altitude.toFixed()} km` },
