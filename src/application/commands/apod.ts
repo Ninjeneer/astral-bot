@@ -1,8 +1,7 @@
-import { Interaction, Message, MessageEmbed } from "discord.js";
-
 import APODService from "../../core/apod/adapters/apod.service";
 import ApodEmbed from "../embeds/apod.embed";
 import Command from "./commands";
+import { Message } from "discord.js";
 import { SlashCommandBuilder } from '@discordjs/builders';
 
 export default class APODCommand extends Command {

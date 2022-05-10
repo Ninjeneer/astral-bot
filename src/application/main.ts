@@ -25,7 +25,7 @@ export default class AstralBot {
 	constructor(launchService: LaunchService, apodService: APODService) {
 		this.launchService = launchService;
 		this.apodService = apodService;
-		this.client = new Client({ intents: [Intents.FLAGS.GUILDS], presence: { activities: [{ name: 'les étoiles', type: 'WATCHING' }] } });
+		this.client = new Client({ intents: [Intents.FLAGS.GUILDS], presence: { activities: [{ name: 'les étoiles', type: 'WATCHING' }],  } });
 		this.client.commands = new Collection();
 
 		// Bot commands
