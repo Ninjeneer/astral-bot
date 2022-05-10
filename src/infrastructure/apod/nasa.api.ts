@@ -6,6 +6,6 @@ const api_url = `https://api.nasa.gov/planetary/apod?api_key=${process.env.NASA_
 
 export default class NasaAPODAPI implements APODAPI {
     async getAPOD(): Promise<APOD> {
-        return (await fetch(api_url).then((r) => r.json())).data;
+        return await fetch(api_url).then((r) => r.json());
     }
 }

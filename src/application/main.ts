@@ -1,3 +1,5 @@
+import APODCommand from "./commands/apod";
+import APODService from "../core/apod/adapters/apod.service";
 import { Interaction } from "discord.js";
 import LaunchCommand from "./commands/launches";
 import LaunchData from "../core/launches/entities/launch";
@@ -15,13 +17,18 @@ dotenv.config();
 
 export default class AstralBot {
 	private launchService: LaunchService;
+	private apodService: APODService;
 	private client: typeof Client;
 
-	constructor(launchService: LaunchService) {
+	constructor(launchService: LaunchService, apodService: APODService) {
 		this.launchService = launchService;
+		this.apodService = apodService;
 		this.client = new Client({ intents: [Intents.FLAGS.GUILDS], presence: { activities: [{ name: 'les étoiles', type: 'WATCHING' }] } });
 		this.client.commands = new Collection();
+
+		// Bot commands
 		this.client.commands.set('launches', new LaunchCommand(this.launchService));
+		this.client.commands.set('apod', new APODCommand(this.apodService));
 
 		this.client.once('ready', this.initBot.bind(this));
 		this.client.on('interactionCreate', async (message: Interaction) => await this.handleMessage(message));
@@ -44,8 +51,6 @@ export default class AstralBot {
 					if (!firstRun) {
 						launches.forEach(this.notifyNewLaunch.bind(this));
 						firstRun = false;
-					} else {
-						console.log(`${launches.length} launches fetched!`);
 					}
 				});
 		}, 5 * 1000); // Check every 5 seconds

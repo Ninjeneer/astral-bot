@@ -9,7 +9,7 @@ export default class APODServiceImpl implements APODService {
         this.apodAPI = apodAPI;
     }
 
-    getAPOD(): Promise<APOD> {
-        return this.apodAPI.getAPOD();
+    async getAPOD(): Promise<APOD> {
+        return await this.apodAPI.getAPOD();
     }
 }
