@@ -18,9 +18,7 @@ describe("ISS Tracker Service", () => {
 
     it("should get the ISS position", async () => {
         const position = await issTrackerService.getPosition();
-        expect(position).toEqual({
-            longitude: -0.12,
-            latitude: 51.51
-        });
+        expect(position.latitude).toBe(51.51);
+        expect(position.longitude).toBe(-0.12);
     });
 });
