@@ -88,7 +88,7 @@ export default class AstralBot {
 
 	private deployCommands(): void {
 		const rest = new REST({ version: '9' }).setToken(process.env.TOKEN);
-		rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, process.env.GUILD_ID), { body: this.client.commands.map(c => c.getDefinition().toJSON()) })
+		rest.put(Routes.applicationCommands(process.env.CLIENT_ID), { body: this.client.commands.map(c => c.getDefinition().toJSON()) })
 			.then(() => console.log('Commands deployed!'))
 			.catch(console.error);
 	}
