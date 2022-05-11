@@ -15,7 +15,7 @@ export default class ApodEmbed extends MessageEmbed {
             .setImage(apod.url)
             .setDescription("*Cliquez sur le le titre ci-dessus pour voir en HD*")
             .setFooter({
-                text: '©  ' + apod.copyright
+                text: '©  ' + apod.copyright ? apod.copyright : 'Ce bg de A.S.T.R.A.L'
             });
     }
 }
