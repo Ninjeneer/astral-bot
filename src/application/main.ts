@@ -103,7 +103,7 @@ export default class AstralBot {
 
 	private notify(message: string, launch: LaunchData): void {
 		const embed = new MessageEmbed()
-			.setTitle('Nouveau lancement programmé !')
+			.setTitle(message)
 			.setDescription(this.launchService.buildLaunchDescription(launch));
 		this.client.channels.fetch(process.env.CHANNEL_ID).then((c) => c.send({ embeds: [embed] }));
 	}

@@ -12,7 +12,6 @@ npm install
 - Define environment variables
 ```sh
 export TOKEN=XXXX
-export GUILD_ID=XXXX
 export CLIENT_ID=XXXX
 export CHANNEL_ID=XXX
 ```
