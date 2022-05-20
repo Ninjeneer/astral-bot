@@ -1,7 +1,7 @@
 import APODAPI from "../../../src/core/apod/ports/apod.api";
 import APODAPIMock from "./apod.api.mock";
-import APODService from "../../../src/core/apod/service/apod.service";
-import APODServiceImpl from "../../../src/core/apod/service/apod.service";
+import APODService from "../../../src/core/apod/services/apod.service";
+import APODServiceImpl from "../../../src/core/apod/services/apod.service";
 
 describe("Launch Service", () => {
     let apodService: APODService;

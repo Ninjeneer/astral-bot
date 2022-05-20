@@ -1,4 +1,4 @@
-import APODServiceImpl from "./core/apod/service/apod.service";
+import APODServiceImpl from "./core/apod/services/apod.service";
 import AstralBot from "./application/main";
 import ISSTrackerServiceImpl from "./core/iss/services/iss-tracker.service";
 import LaunchRepositoryImpl from "./infrastructure/launches/launch.repository";
