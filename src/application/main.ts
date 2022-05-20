@@ -98,7 +98,7 @@ export default class AstralBot {
 	}
 
 	private notifyIncomingLaunch(notification: Notification): void {
-		this.notify(`Un lancement arrive dans ${notification.hasBeenNowNotified() ? ' les prochaines minutes' : 'la prochaine heure'}`, notification.getLaunch());
+		this.notify(`Un lancement arrive dans ${notification.hasBeenNowNotified() ? 'les prochaines minutes' : 'la prochaine heure'}`, notification.getLaunch());
 	}
 
 	private notify(message: string, launch: LaunchData): void {
