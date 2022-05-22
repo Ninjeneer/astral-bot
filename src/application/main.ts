@@ -113,6 +113,8 @@ export default class AstralBot {
 		cron.schedule('0 9 * * *', () => {
 			// Send the APOD
 			this.client.channels.fetch(process.env.CHANNEL_ID).then(async (c) => c.send({ embeds: [new ApodEmbed(await this.apodService.getAPOD())] }));
+		}, {
+			timezone: 'Europe/Paris'
 		});
 	}
 }
