@@ -12,4 +12,7 @@ export type Position = {
   solar_lat: number;
   solar_lon: number;
   units: string;
+
+  country?: string;
+  city?: string;
 }

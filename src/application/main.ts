@@ -2,6 +2,7 @@ import APODCommand from "./commands/apod";
 import APODService from "../core/apod/adapters/apod.service";
 import ApodEmbed from "./embeds/apod.embed";
 import ISSCommand from "./commands/iss";
+import ISSEmbed from "./embeds/iss.embed";
 import ISSTrackerService from "../core/iss/adapters/iss-tracker.service";
 import { Interaction } from "discord.js";
 import LaunchCommand from "./commands/launches";
@@ -29,7 +30,7 @@ export default class AstralBot {
 		this.launchService = launchService;
 		this.apodService = apodService;
 		this.issTrackerService = issTrackerService;
-		this.client = new Client({ intents: [Intents.FLAGS.GUILDS], presence: { activities: [{ name: 'les étoiles', type: 'WATCHING' }],  } });
+		this.client = new Client({ intents: [Intents.FLAGS.GUILDS], presence: { activities: [{ name: 'les étoiles', type: 'WATCHING' }], } });
 		this.client.commands = new Collection();
 
 		// Bot commands
@@ -115,6 +116,16 @@ export default class AstralBot {
 			this.client.channels.fetch(process.env.CHANNEL_ID).then(async (c) => c.send({ embeds: [new ApodEmbed(await this.apodService.getAPOD())] }));
 		}, {
 			timezone: 'Europe/Paris'
+		});
+
+		// Every hour
+		cron.schedule('0 * * * *', async () => {
+			// Get the ISS Position
+			const issPosition = await this.issTrackerService.getPosition();
+			// If the ISS fly over the France, send and a notification
+			if (issPosition.country === 'France') {
+				this.client.channels.fetch(process.env.CHANNEL_ID).then(async (c) => c.send({ embeds: [new ISSEmbed('L\'ISS passe au dessus de la France !', issPosition)] }));
+			}
 		});
 	}
 }

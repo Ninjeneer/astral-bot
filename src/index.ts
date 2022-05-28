@@ -5,7 +5,6 @@ import LaunchRepositoryImpl from "./infrastructure/launches/launch.repository";
 import LaunchServiceImpl from "./core/launches/services/launch.service";
 import NasaAPODAPI from "./infrastructure/apod/nasa.api";
 import NotificationRepositoryImpl from "./infrastructure/notifications/notification.repository";
-import OpenNotifyAPI from "./infrastructure/iss/open-notify.api";
 import RocketLaunchAPI from "./infrastructure/launches/rocketlaunch.api";
 import WhereIsTheISSAPI from "./infrastructure/iss/whereistheiss.api";
 
