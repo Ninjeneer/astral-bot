@@ -46,7 +46,7 @@ export default class LaunchServiceImpl implements LaunchService {
     public buildLaunchDescription(launch: LaunchData): string {
         let description = `**${launch.name}**\n`;
         if (launch.sort_date) {
-            description += `\tLancement le : ${new Date(launch.sort_date * 1000).toLocaleDateString('fr-FR')} à ${new Date(launch.sort_date * 1000).toLocaleTimeString('fr-FR')}\n`;
+            description += `\tLancement le : ${new Date(launch.sort_date * 1000).toLocaleDateString('fr-FR', { timeZone: 'Europe/Paris' })} à ${new Date(launch.sort_date * 1000).toLocaleTimeString('fr-FR', { timeZone: 'Europe/Paris' })}\n`;
         } else {
             description += `\tAucune date de lancement prévue pour le moment\n`
         }
