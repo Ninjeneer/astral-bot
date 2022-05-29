@@ -1,3 +1,4 @@
+import { APODMediaType } from "../../core/apod/entities/apod.entity";
 import APODService from "../../core/apod/adapters/apod.service";
 import ApodEmbed from "../embeds/apod.embed";
 import Command from "./commands";
@@ -17,6 +18,9 @@ export default class APODCommand extends Command {
 	async execute(interaction: Message): Promise<void> {
 		const apod = await this.apodService.getAPOD();
 		await interaction.reply({ embeds: [new ApodEmbed(apod)] })
+		if (apod.media_type === APODMediaType.VIDEO) {
+			await interaction.channel.send(apod.url);
+		}
 	}
 }
 
