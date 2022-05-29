@@ -11,7 +11,7 @@ export default class ApodEmbed extends MessageEmbed {
             apod.url = this.transformVideoLink(apod.url);
         }
 
-        this.setTitle((apod.media_type === APODMediaType.IMAGE ? 'Astrophoto' : 'Atrovideo') + ' de la journée')
+        this.setTitle('Astro' + (apod.media_type === APODMediaType.IMAGE ? 'photo' : 'video') + ' de la journée')
             .addFields(
                 { name: 'Titre', value: apod.title },
                 { name: 'Description', value: apod.explanation.length > 1024 ? apod.explanation.substring(0, 1020) + '...' : apod.explanation },
