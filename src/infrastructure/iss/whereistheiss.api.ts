@@ -11,7 +11,7 @@ export default class WhereIsTheISSAPI implements ISSTrackerAPI {
             const reverseGeocoding = await fetch(`https://us1.locationiq.com/v1/reverse.php?key=${process.env.LOCATIONIQ_API_KEY}&lat=${position.latitude}&lon=${position.longitude}&accept-language=fr&format=json`)
                 .then((response) => response.json());
             position.country = reverseGeocoding.address.country;
-            position.country = reverseGeocoding.address.city;
+            position.city = reverseGeocoding.address.city;
         } catch (e) {
             position.country = null;
             position.city = null;

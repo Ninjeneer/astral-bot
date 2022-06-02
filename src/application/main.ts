@@ -123,7 +123,7 @@ export default class AstralBot {
 			// Get the ISS Position
 			const issPosition = await this.issTrackerService.getPosition();
 			// If the ISS fly over the France, send and a notification
-			if (issPosition.country === 'France') {
+			if (issPosition.country.toLocaleLowerCase() === 'france') {
 				this.client.channels.fetch(process.env.CHANNEL_ID).then(async (c) => c.send({ embeds: [new ISSEmbed('L\'ISS passe au dessus de la France !', issPosition)] }));
 			}
 		});

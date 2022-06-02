@@ -23,8 +23,8 @@ export default class ISSEmbed extends MessageEmbed {
     }
 
     private buildFlyOverText(position: Position): string {
-        if (position.country && position.city) {
-            return `${position.country}, ${position.city}`;
+        if (position.country) {
+            return `${position.country}${position.city ? ', ' + position.city : ''}`;
         }
         return 'Aucun continent';
     }
