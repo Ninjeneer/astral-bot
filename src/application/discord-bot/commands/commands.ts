@@ -1,4 +1,4 @@
-import { Interaction, Message } from 'discord.js';
+import { Message } from 'discord.js';
 
 import { SlashCommandBuilder } from '@discordjs/builders';
 
@@ -13,5 +13,9 @@ export default abstract class Command {
 
     public getDefinition(): SlashCommandBuilder {
         return this.data;
+    }
+
+    public getName(): string {
+        return this.data.name
     }
 }

@@ -1,14 +1,14 @@
 import APODCommand from "./commands/apod";
-import APODService from "../core/apod/adapters/apod.service";
+import APODService from "../../core/apod/adapters/apod.service";
 import ApodEmbed from "./embeds/apod.embed";
 import ISSCommand from "./commands/iss";
 import ISSEmbed from "./embeds/iss.embed";
-import ISSTrackerService from "../core/iss/adapters/iss-tracker.service";
+import ISSTrackerService from "../../core/iss/adapters/iss-tracker.service";
 import { Interaction } from "discord.js";
 import LaunchCommand from "./commands/launches";
-import LaunchData from "../core/launches/entities/launch";
-import LaunchService from "../core/launches/adapters/launch.service";
-import Notification from "../core/launches/entities/notification";
+import LaunchData from "../../core/launches/entities/launch";
+import LaunchService from "../../core/launches/adapters/launch.service";
+import Notification from "../../core/launches/entities/notification";
 import { REST } from "@discordjs/rest";
 import cron from 'node-cron';
 import dotenv from 'dotenv';
@@ -34,9 +34,13 @@ export default class AstralBot {
 		this.client.commands = new Collection();
 
 		// Bot commands
-		this.client.commands.set('launches', new LaunchCommand(this.launchService));
-		this.client.commands.set('apod', new APODCommand(this.apodService));
-		this.client.commands.set('iss', new ISSCommand(this.issTrackerService));
+		const commands = [
+			new LaunchCommand(this.launchService),
+			new APODCommand(this.apodService),
+			new ISSCommand(this.issTrackerService)
+		];
+		commands.forEach((c) => this.client.commands.set(c.getName(), c));
+
 
 		this.client.once('ready', this.initBot.bind(this));
 		this.client.on('interactionCreate', async (message: Interaction) => await this.handleMessage(message));

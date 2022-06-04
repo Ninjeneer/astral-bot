@@ -1,5 +1,5 @@
 import APODServiceImpl from "./core/apod/services/apod.service";
-import AstralBot from "./application/main";
+import AstralBot from "./application/discord-bot/main";
 import ISSTrackerServiceImpl from "./core/iss/services/iss-tracker.service";
 import LaunchRepositoryImpl from "./infrastructure/launches/launch.repository";
 import LaunchServiceImpl from "./core/launches/services/launch.service";

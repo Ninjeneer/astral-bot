@@ -1,5 +1,5 @@
 import { MessageEmbed } from "discord.js";
-import { Position } from "../../core/iss/entities/position.entity";
+import { Position } from "../../../core/iss/entities/position.entity";
 
 export default class ISSEmbed extends MessageEmbed {
     constructor(title: string, position: Position) {

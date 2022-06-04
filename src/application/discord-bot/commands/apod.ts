@@ -1,5 +1,5 @@
-import { APODMediaType } from "../../core/apod/entities/apod.entity";
-import APODService from "../../core/apod/adapters/apod.service";
+import { APODMediaType } from "../../../core/apod/entities/apod.entity";
+import APODService from "../../../core/apod/adapters/apod.service";
 import ApodEmbed from "../embeds/apod.embed";
 import Command from "./commands";
 import { Message } from "discord.js";

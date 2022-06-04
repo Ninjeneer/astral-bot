@@ -1,7 +1,7 @@
-import { Interaction, Message, MessageEmbed } from "discord.js";
+import { Message, MessageEmbed } from "discord.js";
 
 import Command from "./commands";
-import LaunchService from "../../core/launches/adapters/launch.service";
+import LaunchService from "../../../core/launches/adapters/launch.service";
 import { SlashCommandBuilder } from '@discordjs/builders';
 
 export default class LaunchCommand extends Command {

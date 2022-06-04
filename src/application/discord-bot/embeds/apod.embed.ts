@@ -1,4 +1,4 @@
-import { APOD, APODMediaType } from "../../core/apod/entities/apod.entity";
+import { APOD, APODMediaType } from "../../../core/apod/entities/apod.entity";
 
 import { MessageEmbed } from "discord.js";
 

@@ -1,6 +1,6 @@
 import Command from "./commands";
 import ISSEmbed from "../embeds/iss.embed";
-import ISSTrackerService from "../../core/iss/adapters/iss-tracker.service";
+import ISSTrackerService from "../../../core/iss/adapters/iss-tracker.service";
 import { Message } from "discord.js";
 import { SlashCommandBuilder } from '@discordjs/builders';
 
