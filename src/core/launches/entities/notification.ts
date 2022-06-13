@@ -1,4 +1,4 @@
-import LaunchData from "./launch";
+import { LaunchData } from "./launch";
 
 export default class Notification {
     private launch: LaunchData;

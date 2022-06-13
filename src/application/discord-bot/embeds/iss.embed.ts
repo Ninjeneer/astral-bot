@@ -8,7 +8,7 @@ export default class ISSEmbed extends MessageEmbed {
         const osmUrl = `https://www.openstreetmap.org/?mlat=${position.latitude}&mlon=${position.longitude}#map=5/${position.latitude}/${position.longitude}`;
 
         this
-            .setTitle("Suivi de l'ISS")
+            .setTitle(title)
             .setColor("GOLD")
             .setThumbnail("https://d1fmx1rbmqrxrr.cloudfront.net/cnet/optim/i/edit/2022/02/ISS-1200__w770.jpg")
             .setURL(osmUrl)

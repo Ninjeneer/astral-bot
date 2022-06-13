@@ -2,13 +2,13 @@ import Notification from "../../core/launches/entities/notification";
 import NotificationRepository from "../../core/launches/ports/notification.repository";
 
 export default class NotificationRepositoryImpl implements NotificationRepository {
-    private notifications: Map<string, Notification>;
+    private notifications: Map<number, Notification>;
 
     constructor() {
         this.notifications = new Map();
     }
 
-    deleteById(id: string): Promise<void> {
+    deleteById(id: number): Promise<void> {
         this.notifications.delete(id);
         return Promise.resolve();
     }
@@ -18,7 +18,7 @@ export default class NotificationRepositoryImpl implements NotificationRepositor
         return Promise.resolve();
     }
 
-    findByLaunchId(id: string): Promise<Notification> {
+    findByLaunchId(id: number): Promise<Notification> {
         return Promise.resolve(this.notifications.get(id));
     }
 }

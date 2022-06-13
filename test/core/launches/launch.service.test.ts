@@ -1,4 +1,5 @@
 import LaunchApiMock from "./launch.api.mock";
+import { LaunchData } from "../../../src/core/launches/entities/launch";
 import LaunchRepositoryImpl from "../../../src/infrastructure/launches/launch.repository";
 import LaunchService from "../../../src/core/launches/adapters/launch.service";
 import LaunchServiceImpl from "../../../src/core/launches/services/launch.service";
@@ -18,7 +19,7 @@ describe("Launch Service", () => {
     });
 
     it("should delete old launches", async () => {
-        await launchService.fetchLaunches();
+        await launchService.fetchLaunches(true);
         await launchService.fetchLaunches();
         const launches = await launchService.getLaunches();
         expect(launches.length).toBe(1);
@@ -74,5 +75,35 @@ describe("Launch Service", () => {
 
         notifications = await launchService.getIncomingLaunchNotifications();
         expect(notifications.length).toBe(0);
+    });
+
+    it("should build launch description", async () => {
+        const launch: Partial<LaunchData> = {
+            id: 1,
+            name: "launch1",
+            sort_date: String(new Date().getTime() / 1000 + 300),
+            pad: {
+                location: {
+                    id: 0,
+                    name: "pad1",
+                    country: "France",
+                    slug: "fr"
+                },
+                name: "pad1",
+                id: 0
+            },
+            provider: {
+                id: 0,
+                name: "Space X",
+                slug: "space-x"
+            }
+        };
+
+        let description = launchService.buildLaunchDescription(launch);
+        expect(description).toContain("https://www.spacex.com/launches/");
+
+        delete launch.sort_date;
+        description = launchService.buildLaunchDescription(launch);
+        expect(description).toContain("Aucune date de lancement prévue pour le moment");
     });
 });

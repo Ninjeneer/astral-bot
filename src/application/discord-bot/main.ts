@@ -6,7 +6,7 @@ import ISSEmbed from "./embeds/iss.embed";
 import ISSTrackerService from "../../core/iss/adapters/iss-tracker.service";
 import { Interaction } from "discord.js";
 import LaunchCommand from "./commands/launches";
-import LaunchData from "../../core/launches/entities/launch";
+import { LaunchData } from "../../core/launches/entities/launch";
 import LaunchService from "../../core/launches/adapters/launch.service";
 import Notification from "../../core/launches/entities/notification";
 import { REST } from "@discordjs/rest";
@@ -64,7 +64,7 @@ export default class AstralBot {
 						firstRun = false;
 					}
 				});
-		}, 5 * 1000); // Check every 5 seconds
+		}, 20 * 1000); // Check every 20 seconds
 
 		setInterval(async () => {
 			const notifications = await this.launchService.getIncomingLaunchNotifications();
@@ -122,8 +122,8 @@ export default class AstralBot {
 			timezone: 'Europe/Paris'
 		});
 
-		// Every hour
-		cron.schedule('0 * * * *', async () => {
+		// Every twenty minutes
+		cron.schedule('*/20 * * * *', async () => {
 			// Get the ISS Position
 			const issPosition = await this.issTrackerService.getPosition();
 			// If the ISS fly over the France, send and a notification

@@ -1,9 +1,9 @@
-import LaunchData from "../entities/launch";
+import { LaunchData } from "../entities/launch";
 import Notification from "../entities/notification";
 
 export default interface LaunchService {
     getLaunches(): Promise<LaunchData[]>;
     buildLaunchDescription(launch: LaunchData): string;
-    fetchLaunches(): Promise<LaunchData[]>;
+    fetchLaunches(saveExpired?: boolean): Promise<LaunchData[]>;
     getIncomingLaunchNotifications(): Promise<Notification[]>;
 }

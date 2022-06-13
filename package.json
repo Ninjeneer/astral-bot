@@ -34,7 +34,11 @@
     "verbose": true,
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "src/core/**/services/**/*.service.ts"
+      "src/core/**/services/**/*.service.ts",
+      "src/infrastructure/**/*.ts"
+    ],
+    "setupFiles": [
+      "dotenv/config"
     ]
   }
 }

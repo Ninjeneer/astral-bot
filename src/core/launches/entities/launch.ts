@@ -1,221 +1,76 @@
-export default class LaunchData {
-    /**
-     * @type {number}
-     */
-    id;
-
-    /**
-     * @type {string}
-     */
-    cospar_id;
-
-    /**
-     * @type {string}
-     */
-    sort_date;
-
-    /**
-     * @type {string}
-     */
-    name;
-
-    /**
-     * @type {LaunchProvider}
-     */
-    provider;
-
-    /**
-     * @type {LaunchVehicle}
-     */
-    vehicle;
-
-    /**
-     * @type {LaunchPad}
-     */
-    pad;
-
-    /**
-     * @type {LaunchMission[]}
-     */
-    missions;
-
-    /**
-     * @type {string}
-     */
-    mission_description;
-
-    /**
-     * @type {string}
-     */
-    launch_description;
-
-    /**
-     * @type {string}
-     */
-    win_open;
-
-    /**
-     * @type {number}
-     */
-    t0;
-
-    /**
-     * @type {string}
-     */
-    win_close;
-
-    /**
-     * @type {string}
-     */
-    date_str;
-
-    /**
-     * @type {string}
-     */
-    weather_summary;
-
-    /**
-     * @type {number}
-     */
-    weather_temp;
-
-    /**
-     * @type {string}
-     */
-    weather_condition;
-
-    /**
-     * @type {number}
-     */
-    weather_wind_mph;
-
-    /**
-     * @type {string}
-     */
-    weather_icon;
-
-    /**
-     * @type {string}
-     */
-    weather_updated;
-
-    /**
-     * @type {string}
-     */
-    quicktext;
-
-    /**
-     * @type {boolean}
-     */
-    suborbital;
-
-    /**
-     * @type {string}
-     */
-    modified;
+export type LaunchData = {
+    id: number;
+    cospar_id: string;
+    sort_date: string;
+    name: string;
+    provider: Provider;
+    vehicle: Vehicle;
+    pad: Pad;
+    missions: Mission[];
+    mission_description?: any;
+    launch_description: string;
+    win_open?: string;
+    t0?: any;
+    win_close?: any;
+    est_date: Estdate;
+    date_str: string;
+    tags: Tag[];
+    slug: string;
+    weather_summary?: string;
+    weather_temp?: number;
+    weather_condition?: string;
+    weather_wind_mph?: number;
+    weather_icon?: string;
+    weather_updated?: string;
+    quicktext: string;
+    media: any[];
+    result: number;
+    suborbital: boolean;
+    modified: string;
 }
 
-type LaunchProvider = {
-    /**
-     * @type {number}
-     */
-    id;
-
-    /**
-     * @type {string}
-     */
-    name;
-
-    /**
-     * @type {string}
-     */
-    slug;
+export type Tag = {
+    id: number;
+    text: string;
 }
 
-type LaunchVehicle ={
-    /**
-     * @type {number}
-     */
-    id;
-
-    /**
-     * @type {string}
-     */
-    name;
-
-    /**
-     * @type {number}
-     */
-    company_id;
-
-    /**
-     * @type {string}
-     */
-    slug;
+export type Estdate = {
+    month?: number;
+    day?: number;
+    year?: number;
+    quarter?: any;
 }
 
-type LaunchPad = {
-    /**
-     * @type {number}
-     */
-    id;
-
-    /**
-     * @type {string}
-     */
-    name;
-
-    /**
-     * @type {Location}
-     */
-    location;
+export type Mission = {
+    id: number;
+    name: string;
+    description?: any;
 }
 
-type LaunchMission = {
-    /**
-     * @type {number}
-     */
-    id;
-
-    /**
-     * @type {string}
-     */
-    name;
-
-    /**
-     * @type {string}
-     */
-    description;
+export type Pad = {
+    id: number;
+    name: string;
+    location: Location;
 }
 
-type Location = {
-    /**
-     * @type {number}
-     */
-    id;
+export type Location = {
+    id: number;
+    name: string;
+    state?: string;
+    statename?: string;
+    country: string;
+    slug: string;
+}
 
-    /**
-     * @type {string}
-     */
-    name;
+export type Vehicle = {
+    id: number;
+    name: string;
+    company_id: number;
+    slug: string;
+}
 
-    /**
-     * @type {string}
-     */
-    state;
-
-    /**
-     * @type {string}
-     */
-    statename;
-
-    /**
-     * @type {string}
-     */
-    country;
-
-    /**
-     * @type {string}
-     */
-    slug;
+export type Provider = {
+    id: number;
+    name: string;
+    slug: string;
 }
