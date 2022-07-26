@@ -11,9 +11,12 @@ npm install
 ```
 - Define environment variables
 ```sh
-export TOKEN=XXXX
-export CLIENT_ID=XXXX
+export TOKEN=XXX
+export CLIENT_ID=XXX
 export CHANNEL_ID=XXX
+
+export LOCATIONIQ_API_KEY=XXX
+export NASA_API_KEY=XXX
 ```
 
 - Run the tests
