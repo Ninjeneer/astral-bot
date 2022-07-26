@@ -1,17 +1,18 @@
-import APODCommand from "./commands/apod";
-import APODService from "../../core/apod/adapters/apod.service";
-import ApodEmbed from "./embeds/apod.embed";
-import ISSCommand from "./commands/iss";
-import ISSEmbed from "./embeds/iss.embed";
-import ISSTrackerService from "../../core/iss/adapters/iss-tracker.service";
-import { Interaction } from "discord.js";
-import LaunchCommand from "./commands/launches";
-import { LaunchData } from "../../core/launches/entities/launch";
-import LaunchService from "../../core/launches/adapters/launch.service";
-import Notification from "../../core/launches/entities/notification";
 import { REST } from "@discordjs/rest";
-import cron from 'node-cron';
+import { Interaction } from "discord.js";
 import dotenv from 'dotenv';
+import cron from 'node-cron';
+import APODService from "../../core/apod/adapters/apod.service";
+import { APODMediaType } from "../../core/apod/entities/apod.entity";
+import ISSTrackerService from "../../core/iss/adapters/iss-tracker.service";
+import LaunchService from "../../core/launches/adapters/launch.service";
+import { LaunchData } from "../../core/launches/entities/launch";
+import Notification from "../../core/launches/entities/notification";
+import APODCommand from "./commands/apod";
+import ISSCommand from "./commands/iss";
+import LaunchCommand from "./commands/launches";
+import ApodEmbed from "./embeds/apod.embed";
+import ISSEmbed from "./embeds/iss.embed";
 
 // Require the necessary discord.js classes
 const { Client, Intents, Collection, MessageEmbed } = require('discord.js');
@@ -115,9 +116,15 @@ export default class AstralBot {
 
 	private startCronTasks(): void {
 		// Every day at 9am
-		cron.schedule('0 9 * * *', () => {
+		cron.schedule('0 9 * * *', async () => {
 			// Send the APOD
-			this.client.channels.fetch(process.env.CHANNEL_ID).then(async (c) => c.send({ embeds: [new ApodEmbed(await this.apodService.getAPOD())] }));
+			const apod = await this.apodService.getAPOD();
+			this.client.channels.fetch(process.env.CHANNEL_ID).then((c) => {
+				c.send({ embeds: [new ApodEmbed(apod)] });
+				if (apod.media_type === APODMediaType.VIDEO) {
+					c.send(apod.url);
+				}
+			});
 		}, {
 			timezone: 'Europe/Paris'
 		});
