@@ -12,7 +12,6 @@ import APODCommand from "./commands/apod";
 import ISSCommand from "./commands/iss";
 import LaunchCommand from "./commands/launches";
 import ApodEmbed from "./embeds/apod.embed";
-import ISSEmbed from "./embeds/iss.embed";
 
 // Require the necessary discord.js classes
 const { Client, Intents, Collection, MessageEmbed } = require('discord.js');
@@ -57,22 +56,22 @@ export default class AstralBot {
 		this.startCronTasks();
 
 		let firstRun = true;
-		setInterval(() => {
-			this.launchService.fetchLaunches()
-				.then((launches) => {
-					if (!firstRun) {
-						launches.forEach(this.notifyNewLaunch.bind(this));
-						firstRun = false;
-					}
-				});
-		}, 20 * 1000); // Check every 20 seconds
+		// setInterval(() => {
+		// 	this.launchService.fetchLaunches()
+		// 		.then((launches) => {
+		// 			if (!firstRun) {
+		// 				launches.forEach(this.notifyNewLaunch.bind(this));
+		// 				firstRun = false;
+		// 			}
+		// 		});
+		// }, 20 * 1000); // Check every 20 seconds
 
-		setInterval(async () => {
-			const notifications = await this.launchService.getIncomingLaunchNotifications();
-			if (notifications.length > 0) {
-				notifications.forEach((n) => this.notifyIncomingLaunch(n));
-			}
-		}, 60 * 1000); // Check every minute
+		// setInterval(async () => {
+		// 	const notifications = await this.launchService.getIncomingLaunchNotifications();
+		// 	if (notifications.length > 0) {
+		// 		notifications.forEach((n) => this.notifyIncomingLaunch(n));
+		// 	}
+		// }, 60 * 1000); // Check every minute
 
 		console.log('Ready!');
 	}
@@ -130,13 +129,13 @@ export default class AstralBot {
 		});
 
 		// Every twenty minutes
-		cron.schedule('*/20 * * * *', async () => {
-			// Get the ISS Position
-			const issPosition = await this.issTrackerService.getPosition();
-			// If the ISS fly over the France, send and a notification
-			if (issPosition.country.toLocaleLowerCase() === 'france') {
-				this.client.channels.fetch(process.env.CHANNEL_ID).then(async (c) => c.send({ embeds: [new ISSEmbed('L\'ISS passe au dessus de la France !', issPosition)] }));
-			}
-		});
+		// cron.schedule('*/20 * * * *', async () => {
+		// 	// Get the ISS Position
+		// 	const issPosition = await this.issTrackerService.getPosition();
+		// 	// If the ISS fly over the France, send and a notification
+		// 	if (issPosition.country.toLocaleLowerCase() === 'france') {
+		// 		this.client.channels.fetch(process.env.CHANNEL_ID).then(async (c) => c.send({ embeds: [new ISSEmbed('L\'ISS passe au dessus de la France !', issPosition)] }));
+		// 	}
+		// });
 	}
 }
